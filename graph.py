@@ -1,16 +1,32 @@
 import csv
 from datetime import datetime
-import pandas as pd
 import matplotlib.pyplot as plt
 
+# Load the data
+dates = []
+rates = []
 
-with open('OHRU.csv', 'r') as file:
+with open('OHUR.csv', 'r') as file:
     reader = csv.reader(file)
-    header = next(reader)  # Get the header row
-    for index, column_name in enumerate(header):
-        print(f"Column {index}: {column_name}")
-        
-data = pd.read_csv('OHRU.csv', parse_dates=['DATE'])
- 
+    
+    # Analyze header with enumerate
+    for i, row in enumerate(reader):
+        print(f"{i}: {row}")
+        # Skip the header
+        if i == 0:
+            continue
+        if len(row) == 2 and row[1] != '.':  # Ensure valid data
+            date = datetime.strptime(row[0], "%Y-%m-%d")
+            rate = float(row[1])
+            dates.append(date)
+            rates.append(rate)
+
+# Plotting
 plt.figure(figsize=(12, 6))
-plt.plot(data['DATE'], data['OHRU'], color='tab:blue')
+plt.plot(dates, rates, color='blue', linewidth=1)
+plt.title('National Unemployment Rate (1976 - Present)', fontsize=14)
+plt.xlabel('Date', fontsize=12)
+plt.ylabel('Unemployment Rate (%)', fontsize=12)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
