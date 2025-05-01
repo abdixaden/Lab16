@@ -1,4 +1,8 @@
 import csv
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+
 
 with open('OHRU.csv', 'r') as file:
     reader = csv.reader(file)
@@ -8,3 +12,5 @@ with open('OHRU.csv', 'r') as file:
         
 data = pd.read_csv('OHRU.csv', parse_dates=['DATE'])
  
+plt.figure(figsize=(12, 6))
+plt.plot(data['DATE'], data['OHRU'], color='tab:blue')
